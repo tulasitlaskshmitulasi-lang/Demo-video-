@@ -1,0 +1,156 @@
+# Demo-video-
+<DOCTTPE!>
+<html>>
+<head>
+    <title>Flight Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success {
+            background: #d4edda;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .cancel {
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div class="container" id="loginPage">
+    <h2>✈️ Flight Finder Login</h2>
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="login()">Login</button>
+    <p id="loginMessage"></p>
+</div>
+
+<!-- FLIGHT SEARCH PAGE -->
+<div class="container hidden" id="searchPage">
+    <h2>Search Flights</h2>
+    <input type="text" id="from" placeholder="From (City)">
+    <input type="text" id="to" placeholder="To (City)">
+    <input type="date" id="date">
+    <button onclick="bookFlight()">Search & Book</button>
+    <div id="bookingResult"></div>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<!-- CANCEL PAGE -->
+<div class="container hidden" id="cancelPage">
+    <h2>Cancel Booking</h2>
+    <input type="text" id="cancelName" placeholder="Enter Your Name">
+    <button onclick="cancelFlight()">Cancel Flight</button>
+    <div id="cancelResult"></div>
+    <button onclick="backToSearch()">Back</button>
+</div>
+
+<script>
+    let bookedUser = "";
+
+    function login() {
+        let user = document.getElementById("username").value;
+        let pass = document.getElementById("password").value;
+
+        if(user === "admin" && pass === "1234") {
+            document.getElementById("loginPage").classList.add("hidden");
+            document.getElementById("searchPage").classList.remove("hidden");
+        } else {
+            document.getElementById("loginMessage").innerHTML = "Invalid Login!";
+        }
+    }
+
+    function bookFlight() {
+        let from = document.getElementById("from").value;
+        let to = document.getElementById("to").value;
+        let date = document.getElementById("date").value;
+
+        if(from && to && date) {
+            bookedUser = from + "-" + to;
+            document.getElementById("bookingResult").innerHTML =
+                "<div class='success'>Flight Booked from " + from +
+                " to " + to + " on " + date + "</div>" +
+                "<button onclick='showCancelPage()'>Cancel Booking</button>";
+        } else {
+            alert("Please fill all fields!");
+        }
+    }
+
+    function showCancelPage() {
+        document.getElementById("searchPage").classList.add("hidden");
+        document.getElementById("cancelPage").classList.remove("hidden");
+    }
+
+    function cancelFlight() {
+        let name = document.getElementById("cancelName").value;
+
+        if(name) {
+            document.getElementById("cancelResult").innerHTML =
+                "<div class='cancel'>Booking Cancelled Successfully!</div>";
+        } else {
+            alert("Enter Name to Cancel!");
+        }
+    }
+
+    function backToSearch() {
+        document.getElementById("cancelPage").classList.add("hidden");
+        document.getElementById("searchPage").classList.remove("hidden");
+    }
+
+    function logout() {
+        location.reload();
+    }
+</script>
+
+</body>
+</html>
+  
